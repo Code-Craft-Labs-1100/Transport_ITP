@@ -38,13 +38,13 @@ export function chart_Data(transports, custom) {
           data: dataValue,
           backgroundColor: bg,
           hoverOffset: 4,
-          borderRadius: 30,
-          spacing: 10
+          borderRadius: 0,
+          spacing: 0
         }
       ]
     },
     options: {
-      cutout: 125
+      cutout: 0
     }
   };
 

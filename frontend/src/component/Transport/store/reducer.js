@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    machine : [],
-    // transaction: []
+    transport : [],
+  
 }
 
-export const machineSlice = createSlice({
-    name: 'machine',
+export const transportSlice = createSlice({
+    name: 'transport',
     initialState,
     reducers : {
-        getMachines: (state) => {
+        getTransport: (state) => {
               
         }
     }
 })
 
-export const { getMachines } = machineSlice.actions; 
-export default machineSlice.reducer;
+export const { getTransport } = transportSlice.actions; 
+export default transportSlice.reducer;

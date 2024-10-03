@@ -2,21 +2,21 @@ import React from "react";
 import { default as api } from "../store/apiSlice";
 import { getLabels } from "../helpers/helpers";
 
-export default function MachineLabels() {
+export default function Labels() {
   const { data, isFetching, isSuccess, isError } =
-    api.useGetMachineLabelsQuery();
-  let Expence;
+    api.useGetTransportLabelsQuery();
+  let Transport;
   if (isFetching) {
-    Expence = <div>Fetching</div>;
+    Transport = <div>Fetching</div>;
   } else if (isSuccess) {
-    Expence = getLabels(data, "vehicletype").map((v, i) => (
+    Transport = getLabels(data, "vehicletype").map((v, i) => (
       <LabelComponent key={i} data={v}></LabelComponent>
     ));
   } else if (isError) {
-    Expence = <div>Error</div>;
+    Transport = <div>Error</div>;
   }
 
-  return <>{Expence}</>;
+  return <>{Transport}</>;
 }
 
 function LabelComponent({ data }) {

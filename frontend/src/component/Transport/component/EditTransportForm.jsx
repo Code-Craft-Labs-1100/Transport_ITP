@@ -97,10 +97,10 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-export default function EditTransportForm({ open, setOpen, matirialData }) {
+export default function EditTransportForm({ open, setOpen, transportData }) {
   const { register } = useForm();
-  const [addMatirial] = api.useAddMachineMutation();
-  const [editMatirial] = api.useEditMachineMutation();
+  const [addTransport] = api.useAddTransportMutation();
+  const [editTransport] = api.useEditTransportMutation();
 
   const [formData, setFormData] = useState({
     customername: "",
@@ -115,16 +115,16 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
   };
 
   React.useEffect(() => {
-    if (matirialData) {
+    if (transportData) {
       setFormData({
-        customername: matirialData.customername || "",
-        vehicletype: matirialData.vehicletype || "",
-        rentdate: formatDate(matirialData.rentdate),
-        claimdate: formatDate(matirialData.claimdate),
-        rentprice: matirialData.rentprice || ""
+        customername: transportData.customername || "",
+        vehicletype: transportData.vehicletype || "",
+        rentdate: formatDate(transportData.rentdate),
+        claimdate: formatDate(transportData.claimdate),
+        rentprice: transportData.rentprice || ""
       });
     }
-  }, [matirialData]);
+  }, [transportData]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -134,15 +134,15 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (matirialData) {
+    if (transportData) {
       // Update existing record
-      await editMatirial({
-        _id: matirialData.id,
+      await editTransport({
+        _id: transportData.id,
         data: formData
       });
     } else {
       // Create new record
-      await addMatirial(formData).unwrap();
+      await addTransport(formData).unwrap();
     }
   };
 
@@ -159,15 +159,15 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
       >
         <form id="form" onSubmit={handleSubmit}>
           <h1 className="text-3xl justify-center items-center text-center font-semibold mt-5">
-            Update Machine
+            Update Transport
           </h1>
           <Box sx={boxSX}>
-            <Typography sx={titleSx}>Update Machine details</Typography>
+            <Typography sx={titleSx}>Update Transport details</Typography>
 
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <FormControl sx={formSX}>
-                  <InputLabel style={label}>Update name</InputLabel>
+                  <InputLabel style={label}>Update Customer name</InputLabel>
                   <Input
                     style={inputSx}
                     name="customername"
@@ -179,7 +179,7 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
                 </FormControl>
 
                 <FormControl sx={formSX}>
-                  <InputLabel style={label}>Update material type</InputLabel>
+                  <InputLabel style={label}>Update vehical type</InputLabel>
                   <Select
                     style={inputSx}
                     name="vehicletype"
@@ -196,7 +196,7 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
                 </FormControl>
 
                 <FormControl sx={formSX}>
-                  <InputLabel style={label}>Update service date</InputLabel>
+                  <InputLabel style={label}>Update rent date</InputLabel>
                   <Input
                     style={inputSx}
                     name="rentdate"
@@ -211,9 +211,7 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
 
               <Grid item xs={6}>
                 <FormControl sx={formSX}>
-                  <InputLabel style={label}>
-                    Update next service date
-                  </InputLabel>
+                  <InputLabel style={label}>Update claim date</InputLabel>
                   <Input
                     style={inputSx}
                     name="claimdate"
@@ -226,7 +224,7 @@ export default function EditTransportForm({ open, setOpen, matirialData }) {
                 </FormControl>
 
                 <FormControl sx={formSX}>
-                  <InputLabel style={label}>Update Cost</InputLabel>
+                  <InputLabel style={label}>Update rent price</InputLabel>
                   <Input
                     style={inputSx}
                     name="rentprice"
