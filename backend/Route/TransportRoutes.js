@@ -5,12 +5,12 @@ const transportController = require("../Controlers/TransportController");
 
 // Route to add employees
 router.post("/api/addtransport", transportController.addtransport);
-router.post(
-  "/api/createvehicletypes",
-  transportController.createVehicletypes
+router.post("/api/createvehicletypes", transportController.createVehicletypes);
+router.get(
+  "/api/gettransportCategory",
+  transportController.getTransportCategory
 );
-router.get("/api/getMachineCategory", transportController.getMachineCategory);
-router.get("/api/machineLabels", transportController.getMachineLabels);
+router.get("/api/transportLabels", transportController.getTrasportLabels);
 
 //Route get all machine
 router.get("/api/getalltransport", transportController.getalltransport);
@@ -22,7 +22,6 @@ router.get("/api/gettransportById/:id", transportController.gettransportById);
 router.put("/api/updatetransport/:_id", transportController.updateTransport);
 
 //Route update machine
-router.delete("/api/deletetransport/:_id", transportController.deletTransport);
-
+router.delete("/api/deletetransport", transportController.deletTransport);
 
 module.exports = router;

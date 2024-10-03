@@ -9,7 +9,7 @@ export default function MachineLabels() {
   if (isFetching) {
     Expence = <div>Fetching</div>;
   } else if (isSuccess) {
-    Expence = getLabels(data, "materialtype").map((v, i) => (
+    Expence = getLabels(data, "vehicletype").map((v, i) => (
       <LabelComponent key={i} data={v}></LabelComponent>
     ));
   } else if (isError) {
@@ -28,7 +28,7 @@ function LabelComponent({ data }) {
     >
       <div className="item flex justify-between">
         <div className="flex gap-2">
-          <h3 className="text-md font-bold">{data.materialtype ?? ""}</h3>
+          <h3 className="text-md font-bold">{data.vehicletype ?? ""}</h3>
         </div>
         <h3 className="font-bold">{Math.round(data.percent) ?? 0}%</h3>
       </div>

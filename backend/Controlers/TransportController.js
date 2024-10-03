@@ -5,23 +5,21 @@ const model = require("../Model/TransportModel");
 const typeColors = {
   car: "#F73905",
   van: "#14F705",
-  motobick: "#0CE2E9",
+  motobick: "#0CE2E9"
 };
 
 async function addtransport(req, res) {
   if (!req.body) return res.status(400).json("Post HTTP Data not Provided");
-  let { customername, vehicletype, rentdate, claimdate, rentprice } =
-    req.body;
+  let { customername, vehicletype, rentdate, claimdate, rentprice } = req.body;
 
-  let category = await model.transportType.findOne({ vehicletype });
+  let category = await model.TransportCategories.findOne({ vehicletype });
   if (!category) {
     try {
- 
       const color = typeColors[vehicletype];
 
-      category = await new model.transportType({
+      category = await new model.TransportCategories({
         vehicletype,
-        color,
+        color
       }).save();
     } catch (err) {
       return res
@@ -36,7 +34,7 @@ async function addtransport(req, res) {
       vehicletype,
       rentdate,
       claimdate,
-      rentprice,
+      rentprice
     }).save();
 
     return res.json(create);
@@ -51,9 +49,9 @@ async function createVehicletypes(req, res) {
   let { vehicletype, color } = req.body;
 
   try {
-    const Create = await new model.transportType({
+    const Create = await new model.TransportCategories({
       vehicletype,
-      color,
+      color
     }).save();
 
     return res.json(Create);
@@ -64,56 +62,55 @@ async function createVehicletypes(req, res) {
   }
 }
 
-async function getMachineCategory(req, res) {
-  let data = await model.MachineCategories.find({});
+async function getTransportCategory(req, res) {
+  let data = await model.TransportCategories.find({});
 
   let filter = await data.map((v) =>
     Object.assign(
       {},
       {
-        name: v.name,
-        materialtype: v.materialtype,
-        servicedate: v.servicedate,
-        nextservicedate: v.nextservicedate,
-        description: v.description,
-        Cost: v.Cost,
         color: v.color,
+        customername: v.customername,
+        vehicletype: v.vehicletype,
+        rentdate: v.rentdate,
+        claimdate: v.claimdate,
+        rentprice: v.rentprice
       }
     )
   );
   return res.json(filter);
 }
 
-async function getMachineLabels(req, res) {
+async function getTrasportLabels(req, res) {
   try {
-    const result = await model.Technical.aggregate([
+    const result = await model.Transports.aggregate([
       {
         $lookup: {
-          from: "machineCategoriesModel", 
-          localField: "materialtype",
-          foreignField: "materialtype",
-          as: "machineCategoriesModel_info",
-        },
+          from: "transportCategoriesModel",
+          localField: "vehicletype",
+          foreignField: "vehicletype",
+          as: "transportCategoriesModel_info"
+        }
       },
       {
-        $unwind: "$machineCategoriesModel_info",
-      },
+        $unwind: "$transportCategoriesModel_info"
+      }
     ]);
 
-    console.log("Aggregation Result:", JSON.stringify(result, null, 2)); 
+    console.log("Aggregation Result:", JSON.stringify(result, null, 2));
 
     let data = result.map((v) =>
       Object.assign(
         {},
         {
           id: v._id,
-          name: v.name,
-          materialtype: v.materialtype,
-          servicedate: v.servicedate,
-          nextservicedate: v.nextservicedate,
-          description: v.description,
-          Cost: v.Cost,
-          color: v.machineCategoriesModel_info.color, 
+          color: v.color,
+          customername: v.customername,
+          vehicletype: v.vehicletype,
+          rentdate: v.rentdate,
+          claimdate: v.claimdate,
+          rentprice: v.rentprice,
+          color: v.transportCategoriesModel_info.color
         }
       )
     );
@@ -158,46 +155,40 @@ async function updateTransport(req, res) {
   }
 
   const _id = req.params._id;
-  const { customername, vehicletype, rentdate, claimdate, rentprice } = req.body; // Updated to access directly from req.body
+  const { customername, vehicletype, rentdate, claimdate, rentprice } =
+    req.body.recordId.data;
 
   try {
-    const updatedTransport = await model.Transports.findByIdAndUpdate(
+    const updatedIncome = await model.Transports.findByIdAndUpdate(
       _id,
       { customername, vehicletype, rentdate, claimdate, rentprice },
       { new: true }
     );
 
-    if (!updatedTransport) {
-      return res.status(404).json({ message: "Transport not found" });
+    if (!updatedIncome) {
+      return res.status(404).json({ message: "Machine not found" });
     }
 
-    return res.json(updatedTransport);
+    return res.json(updatedIncome);
   } catch (err) {
     return res
       .status(400)
-      .json({ message: `Error while updating Transport: ${err.message}` });
+      .json({ message: `Error while updating Product: ${err}` });
   }
 }
 
-
 async function deletTransport(req, res) {
-  const _id = req.params._id;// Destructure _id from request body
-
-  if (!_id) {
-    return res.status(400).json({ message: "Transport ID not provided" });
+  if (!req.body) {
+    return res.status(400).json({ message: "Request body not found" });
   }
 
   try {
-    const result = await model.Transports.deleteOne({ _id }); // Use _id to find and delete the transport record
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "Transport Record not found" });
-    }
-
-    return res.json({ message: "Record Deleted Successfully" });
+    await model.Transports.deleteOne(req.body);
+    return res.json("Record Deleted...!");
   } catch (err) {
     return res
       .status(500)
-      .json({ message: "Error while deleting Transport Record", error: err.message });
+      .json({ message: "Error while deleting Machine Record" });
   }
 }
 
@@ -207,10 +198,10 @@ async function deletTransport(req, res) {
 module.exports = {
   addtransport,
   createVehicletypes,
-  getMachineCategory,
-  getMachineLabels,
+  getTransportCategory,
+  getTrasportLabels,
   getalltransport,
   gettransportById,
   updateTransport,
-  deletTransport,
+  deletTransport
 };

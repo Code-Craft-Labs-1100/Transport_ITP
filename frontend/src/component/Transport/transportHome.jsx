@@ -7,15 +7,14 @@ import { getTotal } from "./helpers/helpers";
 import TransportGraph from "./graph/TransportGraph";
 import { default as api } from "./store/apiSlice";
 
-
 function TechnicalHome() {
   const { data } = api.useGetMachineLabelsQuery();
+  console.log("trasaction data", data);
 
   return (
     <div style={{ padding: "0 20px" }}>
       {" "}
       <div className="w-full">
-      
         <div className="text-center drop-shadow-lg text-gray-800 mt-5">
           <div style={{ display: "flex", gap: "15px" }}>
             {" "}
@@ -28,7 +27,7 @@ function TechnicalHome() {
                   style={{
                     marginTop: "120px",
                     marginLeft: "150px",
-                    position: "absolute",
+                    position: "absolute"
                   }}
                   className="font-bold title"
                 >

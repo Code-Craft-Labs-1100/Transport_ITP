@@ -1,24 +1,23 @@
 import _ from "lodash";
 
-export function getSum(machine, materialtype) {
-  let sum = _(machine)
-
-    .groupBy("materialtype")
+export function getSum(transports, vehicletype) {
+  let sum = _(transports)
+    .groupBy("vehicletype")
     .map((objs, key) => {
-      if (!materialtype) return _.sumBy(objs, "Cost"); // [300, 350, 500]
+      if (!vehicletype) return _.sumBy(objs, "rentprice"); // [300, 350, 500]
       return {
-        materialtype: key,
+        vehicletype: key,
         color: objs[0].color,
-        total: _.sumBy(objs, "Cost"),
+        total: _.sumBy(objs, "rentprice")
       };
     })
     .value();
   return sum;
 }
 
-export function getLabels(machine) {
-  let amountSum = getSum(machine, "materialtype");
-  let Total = _.sum(getSum(machine));
+export function getLabels(transports) {
+  let amountSum = getSum(transports, "vehicletype");
+  let Total = _.sum(getSum(transports));
 
   let percent = _(amountSum)
     .map((objs) => _.assign(objs, { percent: (100 * objs.total) / Total }))
@@ -27,10 +26,10 @@ export function getLabels(machine) {
   return percent;
 }
 
-export function chart_Data(machine, custom) {
-  let bg = _.map(machine, (a) => a.color);
+export function chart_Data(transports, custom) {
+  let bg = _.map(transports, (a) => a.color);
   bg = _.uniq(bg);
-  let dataValue = getSum(machine);
+  let dataValue = getSum(transports);
 
   const config = {
     data: {
@@ -40,18 +39,18 @@ export function chart_Data(machine, custom) {
           backgroundColor: bg,
           hoverOffset: 4,
           borderRadius: 30,
-          spacing: 10,
-        },
-      ],
+          spacing: 10
+        }
+      ]
     },
     options: {
-      cutout: 125,
-    },
+      cutout: 125
+    }
   };
 
   return custom ?? config;
 }
 
-export function getTotal(machine) {
-  return _.sum(getSum(machine));
+export function getTotal(transports) {
+  return _.sum(getSum(transports));
 }

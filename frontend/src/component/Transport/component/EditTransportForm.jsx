@@ -17,7 +17,7 @@ import {
   FormControl,
   InputLabel,
   Input,
-  Grid,
+  Grid
 } from "@mui/material";
 
 const titleSx = {
@@ -25,19 +25,19 @@ const titleSx = {
   color: "white",
   fontFamily: "Arvo",
   fontWeight: "bold",
-  marginTop: "4px",
+  marginTop: "4px"
 };
 
 const formSX = {
   width: "100%",
   padding: "25px 20px",
-  marginTop: "10px",
+  marginTop: "10px"
 };
 
 const label = {
   color: "#26bb3a",
   fontSize: "20px",
-  fontFamily: "Arvo",
+  fontFamily: "Arvo"
 };
 
 const boxSX = {
@@ -48,24 +48,24 @@ const boxSX = {
   borderRadius: "25px",
   textAlign: "center",
   px: "10px",
-  padding: "5px 18px",
+  padding: "5px 18px"
 };
 
 const inputSx = {
   color: "#000000",
   fontSize: "16px",
   fontFamily: "Arvo",
-  height:"40px",
-  marginTop:"10px"
+  height: "40px",
+  marginTop: "10px"
 };
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
+    padding: theme.spacing(1)
+  }
 }));
 
 function BootstrapDialogTitle(props) {
@@ -82,7 +82,7 @@ function BootstrapDialogTitle(props) {
             position: "absolute",
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500],
+            color: (theme) => theme.palette.grey[500]
           }}
         >
           <CloseIcon />
@@ -94,21 +94,20 @@ function BootstrapDialogTitle(props) {
 
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
-export default function EditMachine({ open, setOpen, matirialData }) {
+export default function EditTransportForm({ open, setOpen, matirialData }) {
   const { register } = useForm();
   const [addMatirial] = api.useAddMachineMutation();
   const [editMatirial] = api.useEditMachineMutation();
 
   const [formData, setFormData] = useState({
-    name: "",
-    materialtype: "",
-    servicedate: "",
-    nextservicedate: "",
-    description: "",
-    Cost: "",
+    customername: "",
+    vehicletype: "",
+    rentdate: "",
+    claimdate: "",
+    rentprice: ""
   });
 
   const formatDate = (dateString) => {
@@ -118,12 +117,11 @@ export default function EditMachine({ open, setOpen, matirialData }) {
   React.useEffect(() => {
     if (matirialData) {
       setFormData({
-        name: matirialData.name || "",
-        materialtype: matirialData.materialtype || "",
-        servicedate: formatDate(matirialData.servicedate),
-        nextservicedate: formatDate(matirialData.nextservicedate),
-        description: matirialData.description || "",
-        Cost: matirialData.Cost || "",
+        customername: matirialData.customername || "",
+        vehicletype: matirialData.vehicletype || "",
+        rentdate: formatDate(matirialData.rentdate),
+        claimdate: formatDate(matirialData.claimdate),
+        rentprice: matirialData.rentprice || ""
       });
     }
   }, [matirialData]);
@@ -140,7 +138,7 @@ export default function EditMachine({ open, setOpen, matirialData }) {
       // Update existing record
       await editMatirial({
         _id: matirialData.id,
-        data: formData,
+        data: formData
       });
     } else {
       // Create new record
@@ -172,9 +170,9 @@ export default function EditMachine({ open, setOpen, matirialData }) {
                   <InputLabel style={label}>Update name</InputLabel>
                   <Input
                     style={inputSx}
-                    name="name"
-                    {...register("name")}
-                    value={formData.name}
+                    name="customername"
+                    {...register("customername")}
+                    value={formData.customername}
                     onChange={handleChange}
                     required
                   />
@@ -184,19 +182,16 @@ export default function EditMachine({ open, setOpen, matirialData }) {
                   <InputLabel style={label}>Update material type</InputLabel>
                   <Select
                     style={inputSx}
-                  
-                    name="materialtype"
-                    {...register("materialtype")}
-                    value={formData.materialtype}
+                    name="vehicletype"
+                    {...register("vehicletype")}
+                    value={formData.vehicletype}
                     onChange={handleChange}
                     required
                   >
                     <MenuItem value="">Select here</MenuItem>
-                    <MenuItem value="type_A">HDPE</MenuItem>
-                    <MenuItem value="type_B">PVC</MenuItem>
-                    <MenuItem value="type_C">Polypropylene</MenuItem>
-                    <MenuItem value="type_D">Polystyrene</MenuItem>
-                    <MenuItem value="type_E">Acrylic</MenuItem>
+                    <MenuItem value="car">Car</MenuItem>
+                    <MenuItem value="van">Van</MenuItem>
+                    <MenuItem value="motobick">Motobick</MenuItem>
                   </Select>
                 </FormControl>
 
@@ -204,10 +199,10 @@ export default function EditMachine({ open, setOpen, matirialData }) {
                   <InputLabel style={label}>Update service date</InputLabel>
                   <Input
                     style={inputSx}
-                    name="servicedate"
+                    name="rentdate"
                     type="date"
-                    {...register("servicedate")}
-                    value={formData.servicedate}
+                    {...register("rentdate")}
+                    value={formData.rentdate}
                     onChange={handleChange}
                     required
                   />
@@ -216,26 +211,17 @@ export default function EditMachine({ open, setOpen, matirialData }) {
 
               <Grid item xs={6}>
                 <FormControl sx={formSX}>
-                  <InputLabel style={label}>Update next service date</InputLabel>
+                  <InputLabel style={label}>
+                    Update next service date
+                  </InputLabel>
                   <Input
                     style={inputSx}
-                    name="nextservicedate"
+                    name="claimdate"
                     type="date"
-                    {...register("nextservicedate")}
-                    value={formData.nextservicedate}
+                    {...register("claimdate")}
+                    value={formData.claimdate}
                     onChange={handleChange}
                     required
-                  />
-                </FormControl>
-
-                <FormControl sx={formSX}>
-                  <InputLabel style={label}>Update description</InputLabel>
-                  <Input
-                    style={inputSx}
-                    name="description"
-                    {...register("description")}
-                    value={formData.description}
-                    onChange={handleChange}
                   />
                 </FormControl>
 
@@ -243,20 +229,29 @@ export default function EditMachine({ open, setOpen, matirialData }) {
                   <InputLabel style={label}>Update Cost</InputLabel>
                   <Input
                     style={inputSx}
-                    name="Cost"
+                    name="rentprice"
                     type="number"
-                    {...register("Cost")}
-                    value={formData.Cost}
+                    {...register("rentprice")}
+                    value={formData.rentprice}
                     onChange={handleChange}
                   />
                 </FormControl>
               </Grid>
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
               <Button
                 size="medium"
-                sx={{ fontSize: "12px", bgcolor: "red", fontWeight: "bold", width: '150px',height:'40px',marginBottom:"30px" }}
+                sx={{
+                  fontSize: "12px",
+                  bgcolor: "red",
+                  fontWeight: "bold",
+                  width: "150px",
+                  height: "40px",
+                  marginBottom: "30px"
+                }}
                 variant="contained"
                 onClick={handleClose}
               >
@@ -265,7 +260,14 @@ export default function EditMachine({ open, setOpen, matirialData }) {
 
               <Button
                 size="medium"
-                sx={{ fontSize: "12px", bgcolor: "green", fontWeight: "bold", width: '150px',height:'40px',marginBottom:"30px" }}
+                sx={{
+                  fontSize: "12px",
+                  bgcolor: "green",
+                  fontWeight: "bold",
+                  width: "150px",
+                  height: "40px",
+                  marginBottom: "30px"
+                }}
                 variant="contained"
                 type="submit"
               >

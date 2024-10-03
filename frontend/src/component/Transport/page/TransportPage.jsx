@@ -24,15 +24,14 @@ function MachinePage() {
             <div className="flex justify-center">
               <div className="w-full ml-96">
                 <Transporrtlist />
-                <TransportGraph/>
-                 <h3 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-4 font-bold title text-center -mt-24">
+                <TransportGraph />
+                <h3 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-4 font-bold title text-center -mt-24">
                   Total
                   <span className="block text-3xl text-emerald-400">
                     ${getTotal(data) ?? 0}
                   </span>
                 </h3>
               </div>
-             
             </div>
           </div>
         </div>

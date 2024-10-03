@@ -8,41 +8,40 @@ export const apiSlice = createApi({
     // get categories
     getMachines: builder.query({
       query: () => "/api/getMachineCategory",
-      providesTags: ["machine"],
+      providesTags: ["machine"]
     }),
 
     // get labels
     getMachineLabels: builder.query({
-      query: () => "/api/machineLabels",
-      providesTags: ["machine"],
+      query: () => "/api/transportLabels",
+      providesTags: ["machine"]
     }),
     deleteMachine: builder.mutation({
       query: (recordId) => ({
-        url: "/api/deletemachine",
+        url: "/api/deletetransport",
         method: "DELETE",
-        body: recordId,
+        body: recordId
       }),
-      invalidatesTags: ["machine"],
+      invalidatesTags: ["machine"]
     }),
     editMachine: builder.mutation({
       query: (recordId) => ({
-        url: `/api/updatemachine/${recordId._id}`,
+        url: `/api/updatetransport/${recordId._id}`,
         method: "PUT",
-        body: { recordId },
+        body: { recordId }
       }),
-      invalidatesTags: ["machine"],
+      invalidatesTags: ["machine"]
     }),
 
     addMachine: builder.mutation({
       query: (initialTransaction) => ({
-        url: "/api/addmachine",
+        url: "/api/addtransport",
         method: "POST",
-        body: initialTransaction,
+        body: initialTransaction
       }),
-      invalidatesTags: ["machine"],
-    }),
-
-  }),
+      invalidatesTags: ["machine"]
+    })
+  })
 });
 
 export default apiSlice;
