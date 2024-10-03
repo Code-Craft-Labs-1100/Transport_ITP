@@ -6,8 +6,8 @@ const transportController = require("../Controlers/TransportController");
 // Route to add employees
 router.post("/api/addtransport", transportController.addtransport);
 router.post(
-  "/api/createMachineCategory",
-  transportController.createMachineCategory
+  "/api/createvehicletypes",
+  transportController.createVehicletypes
 );
 router.get("/api/getMachineCategory", transportController.getMachineCategory);
 router.get("/api/machineLabels", transportController.getMachineLabels);

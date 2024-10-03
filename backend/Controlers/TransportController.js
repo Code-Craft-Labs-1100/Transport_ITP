@@ -3,11 +3,9 @@ const model = require("../Model/TransportModel");
 //Transport
 
 const typeColors = {
-  type_A: "#F73905",
-  type_B: "#14F705",
-  type_C: "#0CE2E9",
-  type_D: "#0F33E7",
-  type_E: "#B90FE7",
+  car: "#F73905",
+  van: "#14F705",
+  motobick: "#0CE2E9",
 };
 
 async function addtransport(req, res) {
@@ -49,12 +47,12 @@ async function addtransport(req, res) {
   }
 }
 
-async function createMachineCategory(req, res) {
-  let { materialtype, color } = req.body;
+async function createVehicletypes(req, res) {
+  let { vehicletype, color } = req.body;
 
   try {
-    const Create = await new model.MachineCategories({
-      materialtype,
+    const Create = await new model.transportType({
+      vehicletype,
       color,
     }).save();
 
@@ -208,7 +206,7 @@ async function deletTransport(req, res) {
 // Export the functions
 module.exports = {
   addtransport,
-  createMachineCategory,
+  createVehicletypes,
   getMachineCategory,
   getMachineLabels,
   getalltransport,
