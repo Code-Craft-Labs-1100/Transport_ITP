@@ -6,7 +6,10 @@ import { IoSearch } from "react-icons/io5";
 import { FiPrinter } from "react-icons/fi";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { Link } from "react-router-dom";
+import { MdAddCard } from "react-icons/md";
 import EditTransportForm from "./EditTransportForm";
+
 
 export default function TransportList() {
   const { data, isFetching, isSuccess, isError } =
@@ -36,7 +39,7 @@ export default function TransportList() {
   } else if (isSuccess) {
     // Filter transports by name based on search term (case-insensitive)
     const filteredtransports = data.filter((transport) =>
-      transport.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      transport.customername?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     TransportList = filteredtransports.length ? (
       filteredtransports.map((transport) => (
@@ -86,22 +89,21 @@ export default function TransportList() {
 
     // Define table headers
     const tableHeaders = [
-      "transport Name",
-      "Material Type",
-      "Service Date",
-      "Next Service Date",
-      "Cost",
-      "Description"
+      "Customer Name",
+      "Vehicle Type",
+      "Rent Date",
+      "Claim Date",
+      "Rent Cost",
+     
     ];
 
     // Map the data for the table
     const tableData = data.map((transport) => [
-      transport.name,
-      transport.materialtype,
-      formatDate(transport.servicedate),
-      formatDate(transport.nextservicedate),
-      transport.Cost,
-      transport.description
+      transport.customername,
+      transport.vehicletype,
+      formatDate(transport.rentdate),
+      formatDate(transport.claimdate),
+      transport.rentprice,
     ]);
 
     // Generate the PDF table
@@ -138,6 +140,14 @@ export default function TransportList() {
           value={searchTerm} // Bind input to searchTerm state
           onChange={handleSearchChange} // Update search term on input change
         />
+        <Link to={'/addtranport'}>
+<button
+    className="bg-[#26bb3a] text-white text-sm font-normal font-['Lexend'] px-4 py-2 flex items-center rounded"
+    style={{background:"bg-[#26bb3a]"}}
+  >      
+            <MdAddCard className="text-black w-8 h-8" />
+          </button>
+</Link>
         <div className="flex justify-center items-center">
           <button
             onClick={generateReport}
@@ -147,15 +157,16 @@ export default function TransportList() {
           </button>
         </div>
       </div>
-      <div className="item flex bg-gray-50  rounded-md mt-2 font-bold">
-        <span className="block w-full mt-2 text-sm">Action</span>
-        <span className="block w-full mt-2 text-sm ">transport Name</span>
-        <span className="block w-full mt-2 text-sm">Material Type</span>
-        <span className="block w-full mt-2 text-sm">Service Date</span>
-        <span className="block w-full mt-2 text-sm">Next Service Date</span>
-        <span className="block w-full mt-2 text-sm"> Repair Cost</span>
-        <span className="block w-full mt-2 text-sm">Description</span>
-      </div>
+    
+      <div className="item flex bg-gray-50 md:mr-8 lg:mr-12 mt-2 font-bold">
+  <span className="w-full mt-2 ml-1 text-sm">Action</span> {/* Reduced margin-left */}
+  <span className="w-full mt-2 text-sm">Customer Name</span>
+  <span className="w-full mt-2 text-sm">Vehicle Type</span>
+  <span className="w-full mt-2 text-sm">Rent Date</span>
+  <span className="w-full mt-2 text-sm">Claim Date</span>
+  <span className="mr-4 w-full mt-2 text-sm">Rent Cost</span>
+</div>
+
 
       <br />
 
