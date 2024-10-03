@@ -11,7 +11,7 @@ import EditTransportForm from "./EditTransportForm";
 export default function TransportList() {
   const { data, isFetching, isSuccess, isError } =
     api.useGetMachineLabelsQuery();
-  const [deleteMachine] = api.useDeleteMachineMutation(); // Ensure this matches your API slice
+  const [deleteTransport] = api.useDeleteMachineMutation(); // Ensure this matches your API slice
   const [searchTerm, setSearchTerm] = useState("");
   console.log("efwefwefewfewff", data);
   const handleSearchChange = (e) => {
@@ -19,9 +19,9 @@ export default function TransportList() {
   };
 
   const handleDeleteClick = async (id) => {
-    console.log("Attempting to delete machine with ID:", id);
+    console.log("Attempting to delete transport with ID:", id);
     try {
-      const result = await deleteMachine({ _id: id }).unwrap();
+      const result = await deleteTransport({ _id: id }).unwrap();
       console.log("Delete successful:", result);
       console.log(id);
     } catch (error) {
