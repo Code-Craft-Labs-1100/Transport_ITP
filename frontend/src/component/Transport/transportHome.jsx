@@ -1,4 +1,3 @@
-// src/component/technical/technicalHome.js
 import React from "react";
 import { FiPrinter } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -7,8 +6,8 @@ import { getTotal } from "./helpers/helpers";
 import TransportGraph from "./graph/TransportGraph";
 import { default as api } from "./store/apiSlice";
 
-function TechnicalHome() {
-  const { data } = api.useGetMachineLabelsQuery();
+function TransportHome() {
+  const { data } = api.useGetTransportLabelsQuery();
   console.log("trasaction data", data);
 
   return (
@@ -47,4 +46,4 @@ function TechnicalHome() {
   );
 }
 
-export default TechnicalHome;
+export default TransportHome;

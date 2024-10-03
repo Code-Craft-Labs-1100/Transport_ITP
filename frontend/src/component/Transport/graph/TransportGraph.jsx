@@ -9,7 +9,7 @@ Chart.register(ArcElement);
 
 export default function MachineGraph() {
   const { data, isFetching, isSuccess, isError } =
-    api.useGetMachineLabelsQuery();
+    api.useGetTransportLabelsQuery();
   let graphData;
 
   if (isFetching) {

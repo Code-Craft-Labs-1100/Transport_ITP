@@ -10,8 +10,8 @@ import EditTransportForm from "./EditTransportForm";
 
 export default function TransportList() {
   const { data, isFetching, isSuccess, isError } =
-    api.useGetMachineLabelsQuery();
-  const [deleteTransport] = api.useDeleteMachineMutation(); // Ensure this matches your API slice
+    api.useGetTransportLabelsQuery();
+  const [deleteTransport] = api.useDeleteTransportMutation(); // Ensure this matches your API slice
   const [searchTerm, setSearchTerm] = useState("");
   console.log("efwefwefewfewff", data);
   const handleSearchChange = (e) => {
@@ -202,7 +202,7 @@ function Transport({ transport, handler }) {
       <EditTransportForm
         open={openDialog}
         setOpen={setOpenDialog}
-        matirialData={transport}
+        transportData={transport}
       />
 
       <span className="block w-full mt-4 text-sm">

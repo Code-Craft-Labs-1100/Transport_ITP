@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import machineSlice from "./reducer";
+import transportSlice from "./reducer";
 import { apiSlice } from "./apiSlice";
 
 export const store = configureStore({
   reducer: {
-    machine: machineSlice,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    transport: transportSlice,
+    [apiSlice.reducerPath]: apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware)
 });

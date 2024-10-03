@@ -5,41 +5,36 @@ const baseURI = "http://localhost:5000";
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: baseURI }),
   endpoints: (builder) => ({
-    // get categories
-    getMachines: builder.query({
-      query: () => "/api/getMachineCategory",
-      providesTags: ["machine"]
-    }),
-
+   
     // get labels
-    getMachineLabels: builder.query({
+    getTransportLabels: builder.query({
       query: () => "/api/transportLabels",
-      providesTags: ["machine"]
+      providesTags: ["transport"]
     }),
-    deleteMachine: builder.mutation({
+    deleteTransport: builder.mutation({
       query: (recordId) => ({
         url: "/api/deletetransport",
         method: "DELETE",
         body: recordId
       }),
-      invalidatesTags: ["machine"]
+      invalidatesTags: ["transport"]
     }),
-    editMachine: builder.mutation({
+    editTransport: builder.mutation({
       query: (recordId) => ({
         url: `/api/updatetransport/${recordId._id}`,
         method: "PUT",
         body: { recordId }
       }),
-      invalidatesTags: ["machine"]
+      invalidatesTags: ["transport"]
     }),
 
-    addMachine: builder.mutation({
+    addTransport: builder.mutation({
       query: (initialTransaction) => ({
         url: "/api/addtransport",
         method: "POST",
         body: initialTransaction
       }),
-      invalidatesTags: ["machine"]
+      invalidatesTags: ["transport"]
     })
   })
 });
